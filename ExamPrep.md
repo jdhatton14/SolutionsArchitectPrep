@@ -16,20 +16,20 @@
             - capacity (storage also scales if needed)
 
     * Cloud Computing Models
-        Full Cloud Deployment
+        * Full Cloud Deployment
             All compponents are in the cloud (database, processing, storage)
             nothing on prem
-        Hybrid Deployment
+        * Hybrid Deployment
             some in the cloud, others are on prem (stuff that needs to be instant)
-        IAAS (Infrastructure ias a service)
-            entire infrastructure is in the cloud
+        * IAAS (Infrastructure ias a service)
+            * entire infrastructure is in the cloud
                 servers and stuff in the cloud, apps on prem
-            must manage it all
-        PAAS (Platform as a service)
-            don't manage infrastructure
-            applications are deployed on platforms
-        SAAS (Software as a service)
-            someone else develops the software
+            * must manage it all
+        * PAAS (Platform as a service)
+          *   don't manage infrastructure
+            * applications are deployed on platforms
+        * SAAS (Software as a service)
+            * someone else develops the software
     * AWS History
         * 2004 AWS public launch
         * 2006 - S3, EC2, SQS launched
