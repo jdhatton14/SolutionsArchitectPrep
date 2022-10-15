@@ -5,12 +5,12 @@
         limited knowledge of implementation
 
     * Benefits of cloud computing
-        Reduced
+        * Reduced
             - hardware cost
             - operational cost
             - deployment cost
         
-        Increased
+        * Increased
             - resiliency (health monitoring)
             - performance (auto scaling)
             - capacity (storage also scales if needed)
@@ -31,16 +31,16 @@
         SAAS (Software as a service)
             someone else develops the software
     * AWS History
-        2004 AWS public launch
-        2006 - S3, EC2, SQS launched
-        2007 - Simple DB launched
-        2008 - Elastic IP launched (allowed static IP for EC2 instances)
-        2009 - Management console and VPC introduced
-        2010 - Route 53 (DNS system), SNS (notification service), IAM (security)
-        2011 - ElastiCache and CloudFormation
-        2012 - SWF, DynamoDB (NoSQL DB)
-        2014 - Redshift (SSD storage)
-        2015 - CloudTrail, WAF, Data Pipeline
+        * 2004 AWS public launch
+        * 2006 - S3, EC2, SQS launched
+        * 2007 - Simple DB launched
+        * 2008 - Elastic IP launched (allowed static IP for EC2 instances)
+        * 2009 - Management console and VPC introduced
+        * 2010 - Route 53 (DNS system), SNS (notification service), IAM (security)
+        * 2011 - ElastiCache and CloudFormation
+        * 2012 - SWF, DynamoDB (NoSQL DB)
+        * 2014 - Redshift (SSD storage)
+        * 2015 - CloudTrail, WAF, Data Pipeline
     * AWS Platform
         - built on top of compute capabilities
             processor, memory, storage
