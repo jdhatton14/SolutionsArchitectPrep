@@ -85,6 +85,29 @@
                 * add ID, Key, and default region
         * AWS Cloudshell
             * virtual terminal within management console
+    * IAM Roles
+        * Permissions for AWS services
+        * Some AWS services need to perform actions on our behalf
+    * IAM Security Tools
+        * IAM Credentials Report (account level)
+            * report that lists your account's users and the status of credentials
+        * IAM Access Advisor (user level)
+            * shows service permissions for a user and last access
+            * can be used to see if permission can be removed if not used
+    * IAM Best Practices
+        * Don't use root account
+        * one physical users = one AWS user
+        * Assign users to groups and assign permissions
+        * Create strong password policy
+        * Use MFA
+        * Create Roles for giving permission to AWS services
+        * Use access keys for programattic access
+        * Use IAM credentials to audit permissions
+        * NEVER share IAM users
+
+    
+
+
     
 
         
