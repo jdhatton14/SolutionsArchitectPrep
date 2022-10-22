@@ -1,4 +1,5 @@
-* Section 3 - Getting started
+# Section 3 - Getting started
+  
     * AWS Global Infrastructure
         * AWS Regions
               * has multiple Availability Zones
@@ -19,6 +20,7 @@
         * Points of Presence (Edge Location)
             * 216 points of presence
             * gets content to users
+* Section 4 IAM & AWS CLI
     
         
 
