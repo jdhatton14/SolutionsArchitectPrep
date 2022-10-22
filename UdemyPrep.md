@@ -109,8 +109,65 @@
         * billing and cost management dashboard - make changes to billing
         * bill details
             * service charges - costs of using services
-    Amazon EC2 - Elastic Compute Cloud
-    
+   ## Amazon EC2 - Elastic Compute Cloud (IAAS)
+        * mainly cosists of
+            - Renting virtual machines (EC2 instance)
+            - storing data on virtual drives (EBS)
+            - Distributing load across machines (Elastic Load Balancer)
+            - Scale Services (Auto Scaling Group)
+    EC2 sizing & config options
+        * Operating Systems Linux, Windows, Mac
+        * CPU
+        * Ram
+        * storage space
+            * network attached (EBS & EFS)
+            * hardware - EC2 Instance Store
+        * network card - public IP address
+        * Firewall rules - security group
+        * Bootstrap script
+            * launching commands when instance first starts
+                - installing updates
+                - installing software
+                - download common files from internet
+            * runs with root user
+        * Amazon Machine Image
+            * has OS and some simple startup
+        * key pair (use to login to EC2 with ssh)
+    EC2 Instance Types
+        * naming convention
+            i.e. m5.2xlarge
+            m: instance class
+            5: generation
+            2xlarge: size within instance class
+        * General Purpose (T class)
+            - great for diverse workloads such as web servers or code repos
+            - balance between compute, memory, networking
+        * Compute Optimized (C class)
+            * things that require high performance processors
+                - batch processing
+                - media transcoding
+                - high performance web servers
+                - High performance computing
+                - machine learning
+                - gaming servers
+        * Memory Optimized (R, X1, Z)
+            * used for databases
+            * distriubted web scale cache stores
+            * process lots of unstructured data
+        * Storage optimized (I, D, H1)
+            * Online transaction processing systems
+            * Relational & NoSQL databases
+            * Data warehousing
+        
+
+            
+
+        
+        
+
+
+
+
 
 
     
