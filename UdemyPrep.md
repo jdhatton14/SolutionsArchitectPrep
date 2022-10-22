@@ -23,16 +23,16 @@
 
 # Section 4 IAM & AWS CLI
     * IAM - Identity and Access Management
-        * Root account is default, **SHOULD NOT BE USED**
+        * Root account is default, ** SHOULD NOT BE USED **
         * Users are people within an org, can be grouped
         * groups can only contain users, no groups within groups
         * users don't have to belong to a group, but can be part of multiple groups
     * IAM Permissions
-        * users or groups can be assigned JSON documents called **policies**
-        * polices define the **permissions** of the users
+        * users or groups can be assigned JSON documents called ** policies **
+        * polices define the ** permissions ** of the users
         * utilize the least privelage principle
-        * **tags** can be added to help identify users or groups
-        
+        * ** tags ** can be added to help identify users or groups
+
     
 
     
