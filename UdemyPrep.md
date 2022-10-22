@@ -104,6 +104,14 @@
         * Use access keys for programattic access
         * Use IAM credentials to audit permissions
         * NEVER share IAM users
+# Section 5 - EC2 Fundamentals
+    AWS Budget Setup
+        * billing and cost management dashboard - make changes to billing
+        * bill details
+            * service charges - costs of using services
+    Amazon EC2 - Elastic Compute Cloud
+    
+
 
     
 
