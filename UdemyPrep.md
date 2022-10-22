@@ -22,6 +22,7 @@
             * gets content to users
 
 # Section 4 IAM & AWS CLI
+    <pre>
     * IAM - Identity and Access Management
         * Root account is default, <b> SHOULD NOT BE USED </b>
         * Users are people within an org, can be grouped
@@ -33,6 +34,7 @@
         * utilize the least privelage principle
         * <b> tags </b> can be added to help identify users or groups
 
+    </pre>
     
 
     
