@@ -20,7 +20,9 @@
         * Points of Presence (Edge Location)
             * 216 points of presence
             * gets content to users
-* Section 4 IAM & AWS CLI
+
+# Section 4 IAM & AWS CLI
+    * 
     
         
 
