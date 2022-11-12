@@ -158,7 +158,7 @@
             * Online transaction processing systems
             * Relational & NoSQL databases
             * Data warehousing
-    ## Security Groups
+    Security Groups
         * Controls how traffic is allowed in or out of EC2 instances
         * Security Groups only contain allow rules
         * act as "firewall" for EC2
@@ -184,7 +184,7 @@
             * 80 - HTTP
             * 443 - HTTPS 
             * 3389 - RDP (Remote Desktop Protocol)
-    ## EC2 Instance Purchasing Options
+    EC2 Instance Purchasing Options
         * On Demand
             * highest cost but no upfront payment
             * no long term commitment
