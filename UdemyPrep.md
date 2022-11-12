@@ -111,10 +111,10 @@
             * service charges - costs of using services
    ## Amazon EC2 - Elastic Compute Cloud (IAAS)
         * mainly cosists of
-            - Renting virtual machines (EC2 instance)
-            - storing data on virtual drives (EBS)
-            - Distributing load across machines (Elastic Load Balancer)
-            - Scale Services (Auto Scaling Group)
+            * Renting virtual machines (EC2 instance)
+            * storing data on virtual drives (EBS)
+            * Distributing load across machines (Elastic Load Balancer)
+            * Scale Services (Auto Scaling Group)
     EC2 sizing & config options
         * Operating Systems Linux, Windows, Mac
         * CPU
@@ -158,7 +158,22 @@
             * Online transaction processing systems
             * Relational & NoSQL databases
             * Data warehousing
-        
+    ## Security Groups
+    * Controls how traffic is allowed in or out of EC2 instances
+    * Security Groups only contain allow rules
+    * act as "firewall" for EC2
+    * regulate
+        * access to ports
+        * IP ranges
+        * inbound network
+        * outbond network
+    * SG has following in rule
+        * type (SSH, HTTPS, etc.)
+        * protocol (TCP/ IP)
+        * Port Range
+        * Source (IP address)
+    * can be attedhed
+
 
             
 
