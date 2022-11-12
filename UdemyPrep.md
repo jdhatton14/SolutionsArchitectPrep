@@ -109,7 +109,7 @@
         * billing and cost management dashboard - make changes to billing
         * bill details
             * service charges - costs of using services
-   ## Amazon EC2 - Elastic Compute Cloud (IAAS)
+    Amazon EC2 - Elastic Compute Cloud (IAAS)
         * mainly cosists of
             * Renting virtual machines (EC2 instance)
             * storing data on virtual drives (EBS)
@@ -159,20 +159,87 @@
             * Relational & NoSQL databases
             * Data warehousing
     ## Security Groups
-    * Controls how traffic is allowed in or out of EC2 instances
-    * Security Groups only contain allow rules
-    * act as "firewall" for EC2
-    * regulate
-        * access to ports
-        * IP ranges
-        * inbound network
-        * outbond network
-    * SG has following in rule
-        * type (SSH, HTTPS, etc.)
-        * protocol (TCP/ IP)
-        * Port Range
-        * Source (IP address)
-    * can be attedhed
+        * Controls how traffic is allowed in or out of EC2 instances
+        * Security Groups only contain allow rules
+        * act as "firewall" for EC2
+        * regulate
+            * access to ports
+            * IP ranges
+            * inbound network
+            * outbond network
+        * SG has following in rule
+            * type (SSH, HTTPS, etc.)
+            * protocol (TCP/ IP)
+            * Port Range
+            * Source (IP address)
+        * SGs can be attached to multiple isntances
+        * locked down to a region/VPC
+        * lives outside of EC2
+        * time out -> SG issue, connection refused -> app error
+        * by default all inbound traffic blocked, all outbound allowed
+        * Ports to know
+            * 22 - SSH
+            * 21 - FTP
+            * 22 - SFTP: SSH file transfer
+            * 80 - HTTP
+            * 443 - HTTPS 
+            * 3389 - RDP (Remote Desktop Protocol)
+    ## EC2 Instance Purchasing Options
+        * On Demand
+            * highest cost but no upfront payment
+            * no long term commitment
+        * Reserved (1 & 3 years) - long workloads
+            * cheaper than on demand
+            * reserve specific instance attribute
+            * different payment options
+        * Convertible Resrved - long workloads with flexible instances
+
+        * Savings Plans (1 & 3 years) - commitment to an amoount of usage
+            * get discount based on long term usage
+            * any usage beyond plan is billed at on demand price
+            * locked to specific instance family & AWS region
+        * Spot instances - short workloads, cheap, can lose instances
+            * up to 90% discounts
+            * Most cost-efficient instances in AWS
+            * useful for batch jobs, data analysis, distributed workloads
+            * not suitible for critical jobs or databases
+        * Dedicated hosts - book an entire server
+            * good for complience or server bound software licenses
+            * most expensive option
+            * BYO licence models go here
+        * Dedicated instances - no other customers share hardware
+            * mayshare hardware with other instances in same account
+            * no control over instance placement
+        * Capacity Reservation - reserve capacity in a specific Avail Zone
+            * no time commitment, no billing discounts
+    ## EC2 Spot Instances Deep dive
+        * Define max spot price
+            * as long as current spot price < max, keep instance
+            * Spot block
+                * keep instance for specified time frame without interruptions
+            * Spot Requests can only be canceled when open, active, or disabled
+                * need to cancel spot requests and then terminate spot instances
+        * Spot Fleets
+            * set of spot instances & (optional) on demand instances
+            * will try to meet target capcity with price constraints
+                * define multiple launch pools: instance type, OS, AZ
+                * can have mult launch pools
+                * stops launching instances when reaching capacity or max cost
+            * strategies to allocate spot instances
+                * lowestPrice
+                * diversified - distributed across all pools 
+                    * great for availability, long workloads
+                * capcityOptimized: pool with optimal capacity
+            * spot fleets allow us to automatically request Spot instances w/ lowest price
+
+            
+
+
+
+
+
+
+
 
 
             
