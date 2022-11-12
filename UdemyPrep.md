@@ -212,7 +212,7 @@
             * no control over instance placement
         * Capacity Reservation - reserve capacity in a specific Avail Zone
             * no time commitment, no billing discounts
-    ## EC2 Spot Instances Deep dive
+    EC2 Spot Instances Deep dive
         * Define max spot price
             * as long as current spot price < max, keep instance
             * Spot block
