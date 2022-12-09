@@ -231,6 +231,90 @@
                     * great for availability, long workloads
                 * capcityOptimized: pool with optimal capacity
             * spot fleets allow us to automatically request Spot instances w/ lowest price
+# Section 6 - EC2 solutions architect
+    * Private vs Public IP
+        * Public IP
+            * can be found on the web (WWWW)
+            * must be unique on the WWW
+            * can be geo located easily
+        * Private IP
+            * can only be found on private network
+            * IP must be unique to private network
+            * two different private networks can have the same IP
+            * machines connect to WWW using NAT + a proxy
+            * only a specific range can be used for IPs
+        * Elastic IPs
+            * start and stopping EC2s can change public IP
+            * if you need a fixed public IP, you need an Elastic IP
+            * can attach to one instance at a time
+            * can mask the failure of an instance or software by rapidly remapping the address
+            * you can only have 5 elastic IPs
+            * AVOID ELASTIC IPS
+                * instead use random public IP and register DNS name
+                * or use load balancer 
+        * EC2s come with a private IP and public IP
+    * Placement Groups
+        * control EC2 instance placement strategy
+        * 3 strategies
+            * Cluster - clusters instances into low latency group in single AZ zone, high risk high reward
+                * same rack, Same AZ
+                * great network speed
+                * if rack fails, all instances fails at the same time
+                * use cases
+                    * big data job that needs to complete fast
+                    * low latency, high network throughput
+            * Spread - have max 7 instances per group per AZ, good for critical applications
+                * different hardware for each instance
+                * reduced risk of simultaneous failure
+                * use case
+                * cons limit of 7 instances per AZ per group
+                * use case
+                    * high availability programs
+            * Partition - different sets of racks within an AZ
+                * each subgroup (patition) is a rack within AZ
+                * can be distributed through multiple AZs
+                * pros - 7 partitions per AZ
+                    * up to 100s of EC2 instances
+                * a partition failure doesn't affect other partitions
+                * use cases
+                    * distributed jobs
+                    * big data (Hadoop, HBase, Kafka)
+    * Elastic Network Interfaces
+        * logical component that represents a virtual network card
+        * has the following attributes
+            * Primary private IPV4
+            * secondary IPV4(s)
+            * public IPV4
+            * one or more security groups
+            * MAC address
+        * can create ENI independently and attach to EC2 instances
+        * bound to one AZ
+        * useful for network failover if an instance fails
+    * EC2 Hibernate
+        * RAM is preserved
+            * instance boot is much faster
+            * OS is not stopped
+        * root EBS volume must be encryped
+        * use cases
+            * long running processes
+            * services that take time to initialize
+        * supports many instance families
+        * instance rame size < 150GB
+        * doesn't work for bare metal instances
+        * available for On-demand, reserved, and spot instances
+        * cannot be hibernated for more than 60 days
+# Section 7 - EC2 Instance Storage
+
+
+
+        
+    
+
+
+
+
+
+
 
             
 
