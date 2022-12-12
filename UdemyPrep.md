@@ -304,6 +304,138 @@
         * available for On-demand, reserved, and spot instances
         * cannot be hibernated for more than 60 days
 # Section 7 - EC2 Instance Storage
+    * EBS Volume (like a usb stick)
+        * (Elastic Block Store)
+        * network drive you attach to instances while they run
+        * allows your instances to persist data
+        * are bound to a specific availability zone
+        * uses network to communicate with the instance
+        * to move a volume you need to snapshot it
+        * delete on termination attribute
+            * defaulted for root volume
+            * any other attched EBS volue in defaulted to delete
+            * use case preserve root volume when instance terminated
+    * EBS Snapshots
+        * backups of EBS volumes
+        * can copy snapshots across AZs or regions
+        * EBS snapshot archive
+            * move snapshot to archive tier to be chaepr
+            * takes 1 - 3 days to restore archive
+        * Recycle BIn
+            * setup rules for accidental delitions
+        * Fast Snapshot Restore (FSR)
+            * force full initilization of snapshot to have no latency
+            * VERY expensive
+    * AMI (Amazon Machine Image)
+        * customization of an EC2 instance
+        * add OS, software, monitoring etc
+        * faster boot/config time
+        * AMIs are built for a specific region and can be copied across regions
+        * AMI cresation Process
+            * start EC2 and customize it
+            * stop instance
+            * build AMI (will also create EBS snapshots)
+            * luanch instances from other AMIs
+    * EC2 Instance Store
+        * EBS are network drives with good but limited performance
+        * EC2 Instance Store is high performance hardware disk
+        * lose their storage if instance is stopped
+        * good for buffer/ cache/ scratch data/ temporary content
+        * risk of data loss if hardware fails
+    * EBS Volume Types
+        * 6 types
+            * GP2/ GP3
+                * general performance
+                * can be used for boot volumes, dev and test environments
+                * 1 GB - 16TB
+                * GP 3
+                    * 3000 IOPS and 125 MB/s throughput
+                    * can increase IOPS independently
+                * GP 2
+                    * small gp2 volums can burst IOPS to 3,000
+                    * 3 
+            * io 1/ io 2
+                * highest performance SSD for mision critical low latency
+                * critical bus apps with sustained IOPS performance
+                * Provisioned IOPS (PIOPS)
+            * st 1
+                * low cost HDD for frequently accessed, throughput intensive workloads
+                * cannot be boot volume
+            * sc 1
+                * lowest cost HDD designed for less frequently accessed workloads
+                * cold HDD, data that is infrequently accessed
+        * characterized by size, throughput, IOPS (I/O Ops Per Sec)
+        * only gp2/gp3 and io 1/io 2 can be used as boot volumes
+
+    * EBS multi attach - IO 1/ IO 2 family
+        * attach same EBS volume to multiple EC2s in the same AZ
+        * each instance has full read/write permissions
+        * Use case
+            * higher app availability (Teradata)
+            * apps must manage concurrent write operations
+        * max 16 EC2 instances at one time
+        * must use file system that's cluster aware
+    * EBS Encryption
+        * encryption done behind the scenes
+        * uses keys from KMS (AES 256)
+        * encrypt an unencrypted EBS volume
+            * create EBS snapshot
+            * encrypt EBS snapshot (using copy)
+            * create new volume using snapshot
+                * make sure encryption selected yes
+            * attached encrypted volume to original instance
+    * Amazon EFS (Electronic File System)
+        * managed NFS (network file system) that can be mounted to many EC2s
+        * EFS works in multiple AZs
+        * highly available, expensive, pay per use
+        * Use cases
+            * content management, web serving, data sharing
+        * uses security group to control access
+        * only Linux based AMIs
+        * performance & storage 
+            * 1000s of concurrent NFS clients, 10 GB/s throughput
+            * sclaes well
+            * Performance
+                * Performance mode
+                    * general purpose
+                    * max I/O (big data)
+                * througput mode
+                    * bursting - throuput scales with size
+                    * Provisioned set throughput regardless of size
+            * Storage
+                * Standard - frequently accessed files
+                * infrequent access (EFS IA) 
+                    * cost to retrieve files lower cost stoarge.  
+                    * lifecycle policy needed
+                * availability and durability
+                    * standard (Regional) - multi AZ
+                    * One zone: One AZ, great for dev or backups
+                        * over 90% in cost savings
+    * EFS vs EBS
+        * EBS can only be attached to instance at a time
+        * EBS locked only to one AZ
+        * EBS backups use IO and shouldn't be run while app is under heavy load
+        * EFS to share website files
+        * EFS only for Linux
+        * EFS more expensive
+        
+
+
+
+                
+
+        
+
+
+        
+            
+
+
+
+        
+
+
+
 
 
 
