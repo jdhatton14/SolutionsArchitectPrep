@@ -704,9 +704,141 @@
                 * gaming leaderboads
                 * redis sorted sets
                     * guarantee both uniqueness and element ordering
-# Section 53
-## What is a DNS
+# Section 10: Route 53
+    * What is a DNS
+        * Domain Name System
+        * translates human friendly hostnames into IP addresses
+        * DNS terminologies
+            * Domain registrar: goDaddy
+            * DNS records
+            * Zone file
+            * Name Server
+            * Top Level domain - .com, .gov, etc
+            * Second level domain: amazon.com, google.com
+    * How DNS works
+        * web browser asks local DNS server
+        * local DNS miss calls Root DNS server
+        * root server sends to domain (.com) server
+    * Route 53
+        * fully managed and Authoritative DNS
+        * Authoritative - customer can update DNS records
+        * Route 53 is also a Domain Registrar
+        * 53 - port for DNS services
+        * Route 53 records
+            * domain/subdomain Name
+            * record Type
+            * Value
+            * Routing Policy
+            * TTL (Time to Live)
+        * Route 53 supported DNS record types
+            * A/ AA / CNAME / NS
+        * Route 53 Record Types
+            * A - maps hostname to IPV4 address
+            * AAAA  - maps hostname to IPV6
+            * CNAME - maps hostname to another hostname
+                * ca't create CNAME record for top node of DNS namespace
+            * NS - Nameservers for hosted zone
+        * Hosted Zones
+            * container for records that deine how to route traffic
+            * Public hosted zone
+                * contains records that specify how to route public internet traffic
+            * Private hosted zone
+                * contains records that show how traffic within VPC works
+            * pay $.50 per month per hosted zone
+        * Route 53 Record TTL
+            * cache the result for the TTL
+            * high TTL
+                * less traffic on route 53
+                * possibly outdated records
+            * low TTL
+                * more traffic on Route 53, more cost
+                * re orcs are outated for less time
+                * easy to change records
+            * TTL mandatory for Alias records
+        * CNAME vs Alias
+            * AWS resources expose an AWS hostname
+            * CNAME - point hostname to another hostname
+                * ONLY WORKS FOR NON ROOT DOMAIN 
+                    (aka.something.mydomain.com)
+            * Alias - points hostname to an AWS resource
+                * Worrks for root domain AND non root
+                * free of charge
+                * automatically recognizes changes in resource IP
+                * Alias record is always of type A/ AAAA
+                * can't set TTL
+                * targets
+                    * ELB, CloudFront, API Gateway, S3 Website
+                    * ElasticBeanstalk env, VPC interface endpoints
+                    * Route 53 record in same hosted zone
+                    * CANT use EC2 DNS names for target
+        * Route 53 Routing Polices
+            * defines how Route 53 responds to DNS queries
+            * Route 53 supports the following
+                * Simple
+                    * route traffic to single resource
+                    * can specify multiple values in same record
+                    * if multiple, random one chosen by client
+                    * when alias enabled, only specify 1 AWS resource
+                    * CAN'T be used for health checks
+                * Weighted
+                    * control % of requests go to each resource
+                    * assign each record a relative weight
+                        * sum of weights don't need to be 100
+                    * DNS records must have same name and type
+                    * good for load balancing from regions
+                    * weight of 0, stop sending traffic to resource
+                * Latency based
+                    * redirect resource that has lowest latency
+                    * latency is base on traffic between users and AWS regions
+                    * can be associated with health checks
+            * Route 53 health Checks
+                * only available for PUBLIC resources
+                * health check -> automated DNS failover
+                * health checks for an endpoint
+                    * 15 global health checkers
+                    * if > 18% of health checkers return healthy, considered healthy
+                    * health checks can check text in first 5120 bytes of response
+                    * configure firewall to allow
+                * health checks that monitor health checks
+                    * calculated heath checks
+                    * combine health checks with OR,AND,NOT
+                    * can monitor up to 256 health checks
+                * health checks that monitor CloudWatch
+                    * used for route 53 health checkers for private endpoints
+            * Routing Policies - Failover (Active-Passive)
+                * primary/seconday with primary health check mandatory
+                * if unhealthy, use secondary
+            * Routing Policies - GeoLocation
+                * routing based on physical user location
+                * specify locaiton by continent, country or US state
+                * should create default record
+            * Routing Policies - Geoproximity
+                * route traffic based on location of users AND resources
+                * ability to shift more traffic to resources based on bias
+                * change size of geographic region, spcify bias values
+                    * to expand - more traffic 
+                    * to shrink - less traffic
+                * must use Route 53 traffic flow to use this feature
+            * Routing Polcies - Multi-value
+                * use to route traffic to multiple resources
+                * can be associated with health checks
+                * up to 8 healthy records are returned for each query
+                * is not a substitute for having an ELB
+            * Domain Registrar vs DNS Service
+                * can buy domain name with any domain registrar
+                * domain registrar usually provides you with a DNS service
+                * can use DNS service to manage DNS records
+                * to use route 53 for non AWS domain
+                    * create hosted zone in route 53
+                    * update NS records on 3rd party site to use route 53 Name Servers
+
+
+
+
+
+
     
+
     
 
 
