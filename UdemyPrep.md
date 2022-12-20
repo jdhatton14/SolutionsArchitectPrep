@@ -541,7 +541,181 @@
             * default 5 mins, 
             * gets activated when scale action happens
             * ASG will not launch or terminate during cooldown
+# Section 9: RDS + Aurora + Elasticache
+    * RDS (Relation Database Service)
+        *  managed SQL database
+            * Postgres
+            * MySQL
+            * MariaDB
+            * Oracle
+            * Microsoft SQL Server
+        * RDS vs deploying own DB?
+            * RDS is managed by AWS (less maintenance)
+            * continuous backups
+            * multi AZ setup for disaster recovery
+            * scaling capability
+        * storage auto scaling
+            * RDS can auto scale if storage about to run out
+            * have to set Max Storage Threshold
+            * can auto modify storage if
+                * free storage is < 10% usage
+                * low storage lasts > 5 min
+                * 6 hours have passed since last modification
+    * RDS Read Replicas for read scalability
+        * can create up to 5 read replicas 
+            * within AZ, Cross AZ or Cross region
+        * replication is ASYNC, eventually consistent
+        * application MUST update connection string to leverage read replicas
+        * Use Cases
+            * have a one time load to handle analytics
+        * Network Cost
+            * normal cost when data goes from one AZ to another
+            * read replicas within same region transfer for free
+            * cross region replicas incure network costs
+        * RDS Multi AZ (Disaster recovery)
+            * SYNC replication
+            * One DNS name - auto app failover
+            * failover in case of loss of AZ, loss of network
+            * NOT used for scaling
+            * read replicas CAN be set up as Multi AZ for disaster recovery
+        * RDS - Single AZ to multi AZ
+            * zero downtime operation
+            * click modify on database -> multi AZ
+    * RDS Custom
+        * managed database with OS and DB customization
+        * you can
+            * configure settings
+            * install patches
+            * Enable native features
+            * access underlying EC2 instance
+    * Amazon Aurora
+        * AWS propiertary tech
+        * Postgres and MySQL supported by AuroraDB
+        * cloud optimized
+        * auto grows in increments of 10GBk up to 128 TB
+        * can have 15 replicas
+        * failover in Aurora is instant
+        * Aurora High Availability and read scaling
+            * 6 copies of data across 3 AZ
+            * self healing 
+            * one aurora instance takes writes
+        * Aurora DB Cluster
+            * reader endpoint connects to all replicas
+                * load balancing at connection level
+        * Aurora Custom Endpoints
+            * define subset of Instances for custom endpoint
+            * replaces default reader endpoint
+        * Aurora Serverless
+            * good for infrequent, intermittent, unpredictable workloads
+            * no capacity planning needed
+            * pay per second
+        * Aurora Multi-Master
+            * use for immediate failover for write node
+            * every node does Read/Write 
+        * Global Aurora
+            * Aurora Cross Region read replicas
+            * aurora global database (recommended)
+            * 1 primary region  (read/write)
+            * 5 secondary read-only regions
+            * typical cross-region replication takes < 1 second
+        * Aurora Machine Learning
+            * add ML based predictions via SQL
+            * supported services
+                * Amazon SageMaker
+                * Amazon Comprehend
+     * RDS backups
+        * automated backups
+            * daily full backup of database
+            * transaction logs backed up every 5 min
+            * 1-35 days of retention, 0 to disable
+        * manual DB snapshots
+            * manually triggered but retained forever
+            * for stopped RDS database do snapshot & restore
+        * Aurora backups
+            * automated backups
+                * 1-35 days, CANT be dsiabled
+                * point in time recovery
+            * manual DB snapshots
+                * kept forever
+    * RDS/Aurora Restore Options
+        * restoring a backup or snapshot creates new database
+        * restore MYSQL DB from S3
+            * create backup
+            * store on S3
+            * restore backup
+        * restore MQSQL Aurora from S3
+            * create backup using Percona XtraBackup
+            * store backup file on S3
+            * restore backup file on new Aurora cluster
+    * Aurora DB cloning
+        * create new DB cluster from existing one
+        * faster than snapshot & restore
+        * very fast & cost-effective
+        * does not impact production DB
+    * RDS/Aurora Security
+        * At-rest encryption
+            * volumes encrypted with KMS, defined at launch time
+            * if master not encrypted, read replicas not encrypted
+            * to encrypt existing DB, snapshot & resotre as encrypted
+        * in-flight encryption
+            * TLS ready be default
+        * IAM auth - IAM roles to connect to DB 
+        * Control network access through Security groups
+        * No SSH available except through RDS Custom
+        * Audit logs can be enabled and sent to CloudWatch
+    * Amazon RDS Proxy
+        * fully managed DB proxy for RDS
+        * allows apps to pool and share DB connections with DB
+        * improves DB efficiency by redusing stress/open connections
+        * serverless, autoscaling, higly available, multi-AZ
+        * supports MySQL, MariaDB, Aurora
+        * enforce IAM auth for DB and securely store creds in Secrets Manager
+        * must be accessed through VPC (not publicly available)
+        * good for lambda functions
+    * Elasticache
+        * managed Redis or Memcached
+        * in-memory DBs with high performances
+        * used for read intensive workloads
+        * makes apps stateless
+        * Elasticache involves HEAVY app code changes
+        * have cache invalidation strategy to make sure data current
+        * Redis vs Memcached
+            * Redis
+                * multi-AZ with auto failover
+                * read replicas
+                * backup and restore features
+            * Memcached
+                * multi-node partitioning
+                * no replication
+                * non persistent
+                * no backup and restore, multi-threaded
+        * Cache Security
+            * does not support IAM auth
+            * RedisAUTH
+                * set apssword/token for Redis cluster
+                * supports SSL in flight encryption
+            * Memcached
+                * supports SASL auth
+            * patterns for Elasticache
+                * lazy loading
+                * write through
+                * Session store
+            * Redis use case
+                * gaming leaderboads
+                * redis sorted sets
+                    * guarantee both uniqueness and element ordering
+    
+
+
+        
+
+        
+    
+        
+        
             
+
+
 
 
 
