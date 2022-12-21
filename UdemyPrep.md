@@ -831,6 +831,51 @@
                 * to use route 53 for non AWS domain
                     * create hosted zone in route 53
                     * update NS records on 3rd party site to use route 53 Name Servers
+# Section 11 - Solutions Architecture discussion
+    * WhatisTheTime.com
+        * no DB, start small and accept downtime
+        * public vs Private IP and EC2 instances
+        * Elastic IP vs Route 53/ Load Balancers
+        * Route 53 TTL, A records and Alias records
+        * maintain EC2s manually vs ASG
+        * Multi AZ
+        * ELB health checks
+    * MyClothes.com
+        * session stickiness
+        * cookies
+        * server session using Elasticache  
+    * MyWordPress.com
+        * fully scalable with picture uploads
+    * Instantiating Apps quickly
+        * it can take time to
+            * install applications
+            * insert intial data
+            * configure everything
+            * launch app
+        *  EC2 instances
+            * use Golden AMI: install apps OS, etc before and launch EC2 from Golden AMI
+            * bootsrap using User Data scripts
+            * Hybrid mix using golden AMI and user Data (elastic beanstalk)
+        * RDS Databases
+            * restore from snapshot instead of large insert statement
+        * EBS volumes
+            * restore from snapshot when possible
+    * Elastic Beanstalk
+        * devloper centric view of deploying an application on AWS
+        * automatically handles capacity provision, load balancing etc
+        * just the app code is the responsibility of the developer
+        * components
+            * application - collection of elastic beanstalk components
+            * app version
+            * environment
+                * collection of AWS resources
+                * Tiers (Web server vs Worker environment)
+                * can create mult environment (dev, test, prod)
+    
+         
+
+
+
 
 
 
