@@ -965,6 +965,8 @@
                 * archive instant access: object not accessed for 90 days
                 * archive access tier: 90-700 days
                 * deep archive access tier
+# Section 13: IAM Roles and Policies
+    * Hands on stuff
 
 
     
