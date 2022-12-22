@@ -967,7 +967,51 @@
                 * deep archive access tier
 # Section 13: IAM Roles and Policies
     * Hands on stuff
-
+# Section 14: Advanced Amazon S3
+    * Moving between storage class
+        * can go from standard down
+        * for infrequently accessed object use standard IA
+    * Lifecycle Rules
+        * configure objects to transition to another storage class
+        * Transition actions - set objects to move to another class
+        * Expieration actions - delete after some time
+        * rules can be created for a certain prefix
+    * Amazon S3 Analytics
+        * helps you decide when to transition objects
+        * recommendations for Standard and Standard IA
+        * 24 -48 hours to see data analysis
+    * S3 Requester Pays
+        * in general, bucket owners pay for S3 operations
+        * if this option enabled, network costs of request paid by requester
+        * helpful when you want to share large datasets with accounts
+        * requester must be auth by AWS
+    * S3 Event Notifications
+        * can notify on object creation, removed, etc
+        * use case: generate thumbnail of images uploaded to S3
+        * can pipe event notifications to SNS, SQS, Lambda
+            * can also use Amazon eventBridge
+    * S3 baseline performance
+        * 3,500 Put/COPY/Post actions per second per prefix
+        * 5,500 Get request per second per prefix
+        * optimizing performance
+            * multi-part upload recommmend for > 100 mb
+                * REQUIRED fore > 5 GB
+            * S3 transfer acceleration
+                * increase transfer speed by transfer file to edge locaton
+                * compatible with multi-part upload
+            * S3 Byte-Range Fetches
+                * parralelize GETs by requesting specific byte ranges
+    * S3 select & Glacier Select
+        * use SQL to perform server-side filtering
+        * can filter by rows & columns
+        * less network transfer, less CPU cost
+    * S3 batch operations
+        * perform bulk operations on existing S3 objects
+            * modify object metadata & properties
+            * Encrypt un-encrypted objects
+        * can use S3 inventory to get object list and use S3 Select
+        
+    
 
     
 
