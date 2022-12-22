@@ -871,6 +871,107 @@
                 * collection of AWS resources
                 * Tiers (Web server vs Worker environment)
                 * can create mult environment (dev, test, prod)
+# Section 12: Amazon S3
+    * advertised as "infitely scaling" storage
+    * many webapps use S3 as a backbone
+    * use cases
+        * backup and storage
+        * disaster recovery
+        * archive
+        * hybrid cloud storage
+        * app/media hosting
+        * data lakes & big data analytics
+    * S3 buckets
+        * stores objects (files) in "buckets" (directories)
+        * buckets must be globally unique
+        * buckets defined at region level
+        * naming convention 
+            * letters, numbers, hyphens
+    * S3 objects
+        * files have a key
+        * key is the FULL path
+            * prefix + object name (s3://myBucket/myfolder/myfile.txt)
+        * values are the content of the body
+        * max object size is 5 TB
+        * if uploading > 5 GB, use multi-part upload
+    * Security
+        * User-based
+            * IAM Policies
+        * Resource-based
+            * Bucket policies - bucket wide rules from SC3 console
+                * allows cross account access
+            * Object Access Control List (ACL) - finer grain
+            * Bucket Access Control List (ACL) - less common
+        * An IAM principal can access S3 object if IAM allows it OR resource policy allows AND there's no explicit deny
+    * S3 Bucket policies
+        * JSON based
+            * resources: buckets and objects
+            * Effect: Allow/Deny
+            * Actions: Set of API to allow or deny
+            * Principal: the account or user to apply policy
+        * use S3 policy to grant public access
+        * buckets settings for block public address will override any bucket policy
+            * can be set at account level if never needed public
+    * Amazon S3 - Static website
+        * bucket must allow public reads
+    * Amazon S3- Versioning
+        * enabled at bucket level
+        * same key overwrite will change "version"
+        * best practice to version your buckets
+            * protect against unintended deletes
+            * easy roll back to previous version
+        * any file not versioned prior to enabling version has null version
+        * suspending versioning does not delete previous versions
+    * S3 Replication
+        * must enable versioning in source and destionation buckets
+        * Cross Region Replication (CRR)
+        * Same Region Replication (SRR)
+        * buckets can be in different AWS accounts
+        * copying is asynchronous
+        * must give proper IAM permission to S3
+        * use cases
+            * CRR - compliance, lower latency
+            * SRR - log aggregation, live replication between prod
+        * only new objects are replicated after enabling replication
+        * can use S3 Batch replication
+        * no chaining of replications
+    * S3 Storage Classes
+        * Standard
+            * 99.9999% availability
+            * used for frequently accessed data
+            * use cases - big data, mobile
+        * Standard-Infrequent Access
+            * less frequent access but rapid access when needed
+            * 99.9% availability
+            * use cases - disaster recovery, backups
+        * One Zone- Infrequent Access
+            * high durability in single AZ; data lost when AZ is destroyed
+        * Glacier Instant Retrieval
+            * millisecond retriveal
+            * min storage duration 90 days
+        * Glacier Flexible Retrieval
+            * Expedited (1-5 min), Standard (3-5 hrs), Bulk (5-12 hrs)
+            * min storage duration 90 days
+        * Glacier Deep Archive
+            * standard (12 hours)
+            * bulk (48 hrs)
+            * min storage duration 180 days
+        * Intelligent Tiering
+            * small monthly monitoring and auto-tiering fee
+            * move objects automatically between access tiers based on usage
+            * tiers
+                * frequent access (automatic): default
+                * infrequent access: objects not access for 30 days
+                * archive instant access: object not accessed for 90 days
+                * archive access tier: 90-700 days
+                * deep archive access tier
+
+
+    
+
+
+
+
     
          
 
