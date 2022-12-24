@@ -1097,6 +1097,63 @@
         * S3 Object Lambda
             * use lambda functions to change the object before it is retrieved by the caller app
             * Only one S3 bucket is needed, on top of which we create S3 Access Point and S3 Object Lambda Access points
+# Section 16: CloudFront & Global Accelerator
+    * CloudFront
+        * Content Delivery Network (CDN)
+        * Improves read performance, content cached at edge locations
+        * DDoS protection, integration with Shield, AWS WAF
+        * Origins
+            * S3 Buckets
+                * for distributin files and caching at edge
+                * enhanced security with Origin Access Control (OAC)
+                    * OAC is replacing Origin Access Identity (OAI) 
+                    * CloudFront can be used as an ingress (upload)
+            * Custom Origin (HTTP)
+                * ALB
+                * EC2 instance
+                * S3 website (must be static)
+        * use ALB or EC2 as an origin
+            * use security group that allows public IP of edge locations
+        * Cloudfront Geo Restriction
+            * can restritc access to your distribution
+            * allowlist - allow users from cetain contry
+            * blocklist - block users from certain country
+        * Price Classes
+            * cost of data out per edge location varies
+            * can reduce number of edge locations for cost reduction
+            * three price classes:
+                * Price class all: all regions - best performance
+                * Price class 200: most regions except most expensive
+                * Price Class 100: only least expensive regions
+        * Cache Invalidations
+            * if you update back-end origin cloudfront won't know about it
+            * have to wait for TTL to expire
+            * can force entire or partial cache refresh through cloudfront invalidation
+            * invalidate all files (*) or with specific path
+    * Global Accelerator
+        * Unicast IP
+            * one server holds one IP address
+        * Anycast IP 
+            * servers hold the same IP and client is routed to nearest one
+        * global accelerator uses Anycast IP
+        * leverage AWS internal netowrk to route to your app
+        * talks to closest edge location on private AWS
+        * 2 anycast IPs are created for your application
+        * the anycast IPs send traffic directly to edge location
+        * work with Elastic IP, EC2 instances, ALB, NLB
+        * has health checks for your app
+        * auto failover to healthy endpoint
+        * DDoS protection through AWS shield
+
+
+
+
+
+            
+
+
+
+
     
         
 
