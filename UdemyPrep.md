@@ -1144,6 +1144,171 @@
         * has health checks for your app
         * auto failover to healthy endpoint
         * DDoS protection through AWS shield
+# Section 17: AWS Storage Extras
+    * AWS Snow Family 
+        * highly secure, portable devices
+        * Data Migration
+            * transfer a lot of data fast
+            * can save on high network cost
+            * Three devices
+                * Snowball Edge
+                    * storage optimized
+                        * 80TB
+                    * compute optimized
+                        * 42TB  
+                * Snowcone
+                    * small little box, light
+                    * 8TB of storage
+                    * use snowcone where snowball does not fit
+                    * must provide own battery/ cables
+                    * can use AWS offline or AWS datasync
+                * Snowmobile
+                    * huge truck, huge amounts of data (1 mil TB)
+        * Edge Computing
+            * Edge Locations
+                * process data while it's being created on edge location
+                * truck on road, ship on sea, etc
+                * location may have
+                    * limited/ no internet access
+                    * limited / no easy access
+                * use cases of edge computing
+                    * preprocess data
+                    * ML at edge
+                    * transcoding media streams
+            * Snowcone
+                * 2 CPUS, 4 GB Ram
+                * USB-C power
+            * Snowball Edge
+                * Compute Optimized
+                    * 52 vCPUs, 208 GB Ram
+                * storage Optimized
+            * all can run EC2 instances & AWS lambda functions
+        * AWS OpsHub
+            * OS to handle snowball devices
+        * cannot import from snowball into Glacier directly
+            * move to S3 first, then use lifecycle policy
+    * Amazon FSx
+        * launch 3rd party file systems on AWS
+        * fully managed service
+        * supported systems
+            * Lustre
+                * distributed file system for large scale computing
+                * ML, High Performance Computing (HPC)
+                * seamless integration with S3
+                    * read S3 as file system
+                    * write output of computation back to S3 
+                 * deployment options
+                    * scratch file system
+                        * temp storage
+                        * data is not replicated
+                        * high burst
+                        * usage: short-term processing, optimize costs
+                    * persistent file system
+                        * long term storage
+                        * data is replicated within same AZ
+                        * replace failed files within minutes
+            * Windows File Server
+                * Supports SMB & Windows NTFS
+                * Active Directory integration, ACLs, user quoatas
+                * can be mounted on Linux EC2 instances
+                * supports Microsofts Distributed File System Namespaces
+                * can be Multi-AZ
+                * data backed up to S3
+            * NetApp ONTAP
+                * compatible with NFS, SMB, iSCSI protocol
+                * move workloads from ONTAP or  NAS to AWS
+                * storage shrinks or grows automatically
+                * instantaneous cloning
+            * OpenZFS
+                * compatible with NFS
+                * move workloads running on ZFS to AWS
+                * snapshots, compression and low-cost
+                * instantaneous cloning
+    * Stroage Gateway
+        * AWS is pushing for "hybrid cloud"
+            * part of infra in cloud, part on-prm
+        * Storage Cloud native options
+            * Block storage - EBS
+            * File storage - EFS/FSx
+            * Object storage - S3/ S3 Glacier
+        * storage gateway bridge between on-prm and cloud data
+        * use cases
+            * disaster recovery
+            * backups
+            * tiered storage
+            * on-prm cache & low-latency file access
+        * types of storage gateway
+            * S3 File Gateway
+                * configured S3 buckets accessed through NFS/SMB
+                * most recently used data is cached in the gateway
+                * supports S3 except glacier
+                    * transition to Glacier using lifecycle policy
+                * bucket access usign IAM roles
+            * FSx file Gateway
+                * local cache for frequently accessed data
+                * windows native compatibility
+            * Volume Gateway
+                * block storage usiing iSCSI protocol backed by S3
+                * backed by EBS snapshots
+                * cached volumes - low latency access to most recent data
+                * stored volumes: entire dataset is on-prm, scheduled backups to S3
+            * Tape Gateway
+                * backup process using physical tapes
+                * backed up by S3 and Glacier
+                * works with leading backup vendors
+        * storage gateway - hardware appliance
+            * can buy on amazon.com
+            * used when virtualizaiton not available
+    * AWS Transfer family
+        * fully managed service for file transfers using FTP
+        * supported protocols
+            * AWS transfer for FTP (File transfer Protocol)
+            * AWS Transfer for FTPS (FTP over SSL)
+            * AWS Transfer for SFTP (Secure FTP)
+        * pay per provisioned endpoint + data transfer in GB
+        * store and manage user credentials with service
+    * AWS DataSync
+        * move large amount of data to and from 
+            * On-prm/ other coluds to AWS (needs agent)
+            * AWS to AWS (diff storage service) - no agent needed
+        * can synch to
+            * S3
+            * EFS
+            * FSx
+        * replication tasks can be scheduled hourly, daily, weekly
+        * File permissions and metadata are preseerved (NFS POSIX, SMB)
+        * one agent task can use 10 Gbps
+    * Stroage Comparison
+        * S3 - Object Storage
+        * S3 Glacier: Object Archival
+        * EBS Volumes: network storage for one EC2 isntance
+        * Instance storage: physical storage for EC2, high IOPS
+        * EFS: Network file system for LInux, POSIX
+        * FSx for WIndows: NFS for WIndows
+        * FSx for Lustre: high performance computing
+        * FSx for NetApp ONTAP: High OS Compatibility
+        * FSx for OpenZFS: Managed ZFS 
+        * Stroage Gateway: 
+            * S3 & FSx file gateway
+            * volume gateway (cache & stored)
+            * EFS gateway
+        * Transfer Family : FTP, FTPS, SFTP to AWS
+        * DataSync: Schedule data sync from onprem to AWS, AWS - AWS
+        * Snowcone/ SnowBall/ Snowmobile : move large data to cloud
+        * dabtabase: for specific workloads usually for indexing
+        
+
+
+
+
+
+
+                
+       
+
+
+        
+
 
 
 
