@@ -1296,6 +1296,181 @@
         * DataSync: Schedule data sync from onprem to AWS, AWS - AWS
         * Snowcone/ SnowBall/ Snowmobile : move large data to cloud
         * dabtabase: for specific workloads usually for indexing
+# Section 18 - Decoupling apps: SQS, SNS, Kinesis, Active MQ
+    * two patterns of communicaiton
+        * Synchronous communication (app to app)
+            * can become problem with sudden spikes of traffic
+        * Asynch/ Event based (app to queue to app)
+    * decouple apps
+        * SQS: queue model
+        * SNS: pub/sub model
+        * Kinesis: real time streaming model
+    * SQS (SImple Queue Service)
+        * Standard Queue
+            * oldest offering
+            * fully managed service, used to decouple apps
+            * unlimited throughput, unlimited # of messages
+            * default retention - 4 days, max 14 days
+            * low latency
+            * < 256KB per message sent
+            * can have duplicate messages
+            * can have out of order messages
+        * producing message
+            * put on queue using SDK (SendMessage API)
+            * msg persisted until consumer deletes it
+        * consuming message
+            * Poll SQS for messages
+            * Process message
+            * delete message using DeleteMessage API
+        * consumers recieve and process messages in parallel
+        * SQS security
+            * Encryption
+                * in-flight encryption using HTTPS
+                * at-rest encryption using KDS
+                * client-side encryption if client wants DIY 
+            * Access Controls: IAM poicies regulate access
+            * SQS access policies (similar to S3 bucket policies)
+                * useful for cross account access to SQS queries
+        * SQS message visibility timeout
+            * after msg polled by consumer, it becomes invisible to other consumers
+            * default timeout is 30 seconds
+            * message must be processed in that 30 secs
+            * if message not processed within timeout, msg processed twice
+            * a consumer can call ChangeMessageVisibility API to get more time
+            * high timeout will cause long re-processing time
+            * low timeout may get duplicates
+        * SQS Long Polling
+            * when conusmer requests messages from queue, it can optionally wait for messages to arrive
+            * decreases number of API calls to SQS while increasing efficiency and latency
+        * FIFO Queue
+            * First in First out ordering
+            * limited throughput: 300 msg/s up to 3000 msgs/s
+            * excactly once send capability
+            * messages processed in order
+        * SQS with ASG (good use case)
+            * can scale on CLoudWatch metric - queue length
+                * approxNumberOfMessages
+            * alarm when NumMsgs eclipsed to add another consumer
+            * if load is too big some transactions may be lost
+            * can use SQS as buffer to DB writes
+    * SNS (Simple Notification Service)
+        * send one message to many receivers
+        * event producer only sends msg to one SNS topic
+        * many event receivers get notification
+        * publish/subsribe model
+        * how to publish
+            * Topic Publish
+                * create topic
+                * create subsription
+                * publish to topic
+            * Direct Publish
+                * create platform app
+                * create platform endpoint
+                * publish to platform endpoint
+                * works with Google, Apple, Amazon
+        * SNS Security
+            * in flight encryption with HTTPS
+            * at rest encryption using KMS keys
+            * IAM policies to regulate Access
+            * SNS access policies
+        * SNS + SQS Fan Out Pattern
+            * push once in SNS, receive in all SQS queues that subsribe
+            * fully decoupled, no data loss
+            * SQS allows for data persistence, delayed processing
+            * Cross-Region delivery with SQS in different regions
+            * SNS FIFO Topic
+                * preserves message ordering
+            * Message filtering
+                * use JSON policy to filter only specific messages
+    * Kinesis
+        * collect, process, analyze streaming data in real time
+        * data can be app logs, metrics, clickstreams, etc
+        * Kinesis Data Streams
+            * capture, process, store data streams
+            * made of multiple shards
+            * producers send records to data stream shard
+                * partition key, data blob
+            * consumers recieve record to process
+            * retention between 1 day to 365 days
+            * ability to reprocess data
+            * once data inserted, it can't be deleted
+            * data that shares same partition goes to same shard
+            * producers - SDK, Kinesis Producer Library, Kinesis agent
+            * Consumers
+                * write your own, Kinesis Client Lib, AWS SDK
+                * Managed: Lambda, Data Firehose, Data Analytics
+            * Capacity Modes
+                * Provisioned mode
+                    * choose # of shrads, scale manually 
+                    * pay per shard provisioned per hour
+                * On-demand mode
+                    * no need to manage capacity
+                    * auto scaling based on throughput peak
+                    * pay per stream per hour & data in/out per GB
+
+        * Kinesis Data Firehose
+            * load data streams into AWS data stores
+            * knows how to write data to destinations
+                * S3, RedShift, ElasticSearch
+                * 3rd party apps (SPlunk, mongoDB, etc)
+            * near real time
+            * supports many data formats, conversions
+            * can send backups to S3
+        * Kinesis Data Analytics
+            * analyze data streams with SQL or Apache Flink
+        * Kinesis Video Streams
+            * capture, process, store video streams
+        * Kinesis Security
+            * Controll access using IAM
+            * in flight using HTTPS, at rest with KMS
+            * VPC endpoints available for Kinesis
+            * monitor API using CLoudTrail
+    * Ordering data into Kinesis
+        * send using a partition key with a value of importance
+        * same parition key will be in same shard
+    * Ordering data in SQS
+        * standard queue, no ordering
+        * for FIFO queue, with no group ID, messages consumed in order
+        * scale number of consumers, use group ID
+    * SQS vs SNS vs Kinesis
+        * SQS
+            * conumer pulls data
+            * data is deleted after being consumed
+            * can have as many workers as needed
+            * idvidual message delay capability
+            * fully managed
+        * SNS
+            * publish/ subscribe architecture
+            * data is not persisted
+            * fully managed
+        * Kinesis
+            * standard - pull data
+            * enahanced fan out - push data
+            * possibility to replay data
+            * meant for real time big data, analytics, ETL
+            * ordering at the shard level
+            * data expires afte X days
+            * provisioned mode or on demand capacity mode
+    * Amazon MQ
+        * managed message broker service for RabbitMQ/ActiveMQ
+        * doesn't scale as much as SQS/SNS
+        * runs on servers, can run in multi-AZ with failover
+        * has both queue feture and topic features
+    
+
+    
+
+
+        
+
+
+
+        
+
+        
+
+    
+        
         
 
 
