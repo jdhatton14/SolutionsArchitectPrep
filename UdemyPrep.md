@@ -1456,6 +1456,101 @@
         * doesn't scale as much as SQS/SNS
         * runs on servers, can run in multi-AZ with failover
         * has both queue feture and topic features
+# Section 19: Containers on AWS (ECS, Fargate, ECR & EKS)
+    * Docker
+        * apps packaged in containers that can be run on any OS
+        * apps run the same, regardless of where they're run
+        * good for microservices architecture
+        * where are images stored
+            * Docker Hub
+            * Amazon ECR (Elastic Container Registry)
+                * private container repository
+    * Amazon ECS (Elestic Container Service)
+        * launch docker containers on AWS -> launch ECS tasks on clusters
+        * EC2 launch type: must provision & maintain infra (EC2s)
+            * each EC2 instance must run the ECS Agent
+        * ECS - Fargate Luanch type
+            * do not provision the infrastructure
+            * serverless, to scale increase number of tasks
+        * IAM roles for ECS
+            * EC2 instance profile (EC2 Launch type only)
+                * used by ECS agent
+            * ECS Task Role
+                * allows each task to have a specific role
+                * use different roles for different ECS services you run
+            * Load balancer integrations
+                * ALBs supported for ECS
+                * Network load balancer recommend for high thorughput
+                * ELB supported but not recommended (no Fargate)
+            * ECS Data Volumes (EFS)
+                * mount EFS file systems onto ECS tasks
+                * works for both EC2 and Fargate launch types
+                * Fargate + EFS = serverless
+                * S3 cannot be mounted on a file system
+        * ECS Service Auto Scaling
+            * auto increase/decrease disired # of ECS tasks
+            * auto scaling uses
+                * Average CPU utlization
+                * Average Memory Utilization - scale on RAM
+                * Request Count Per Target - metric coming from ALB
+            * EC2 launch type - auto scaling EC2 instances
+                * auto scaling group scaling
+                    * scale ASG based on CPU utlization
+                    * add EC2s over time
+                * ECS Cluster Capacity Provider
+                    * used to auto provision and scale infra
+                    * capacity provider paired with ASG
+                    * Add EC2s when missing capacity (CPU, Ram)
+        * ECS tasks invoked by event bridge
+            * event bridge can run ecs tasks such as S3 object upload
+        * ECS tasks invoked by event bridge schedule
+            * run tasks at certain interval for batch processing
+    * Amazon ECR (Elastic Container Registry)
+        * store and manage Docker images on AWS
+        * private and public repositories
+        * fully integrated with ECS, backed by Amazon S3
+        * access is controlled through IAM
+            * permission errors -> check IAM policies
+        * supports image vulnerability, scanning, versioning, etc
+    * Amazon EKS (Elastic Kubernetes Service)
+        * launch managed Kubernetes cluster on AWS
+        * Kubernetes
+            * alternative to ECS, open source container manangement
+        * EKS supports EC2 or Fargate
+        * pods - group of EKS containers
+        * Node types
+            * managed node groups
+                * nodes are part of an ASG managed by EKS
+                * supports on-demand or Spot instances
+            * self-managed nodes
+                * nodes created by user
+                * can use prebuilt AMI (EKS optimized)
+            * Fargate
+                * no maintenance required, no nodes managed
+        * EKS - Data volumes
+            * need to specify StorageClass manifest
+            * leverage a Container Storage Interface (CSI) driver
+            * supports
+                * Amazon EBS
+                * Amazon EFS (works with fargate)
+                * FSx for Lustre
+                * FSx for NetApp ONTAP
+    * AWS App Runner
+        * fully managed service to easily deploy web apps and APIs
+        * start with source courd or container image
+        * auto builds and deploy the web app
+        * VPC access support
+        * use cases: microservices, rapid production deployments
+
+        
+
+            
+
+            
+
+
+    
+        
     
 
     
