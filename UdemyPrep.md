@@ -1541,6 +1541,158 @@
         * auto builds and deploy the web app
         * VPC access support
         * use cases: microservices, rapid production deployments
+# Section 20: Serverless services Overview
+    * serveless is developers don't manage servers anymore
+    * Lambda
+        * virtual functions - no servers to manage
+        * limited by time - short executions
+        * runs on demand
+        * benefits
+            * easy pricing
+                * pay per request and compute time
+            * integrated with AWS services
+            * integration with many programming languages
+            * increasing RAM will also improve CPU and network
+        * language support
+            * NOde.js, Python, Java, C#, Golang, Ruby
+            * Lambda Container Image
+                * must implement Lambda Runtime API
+                * ECS/ Fargate preferred for most docker images
+        * Lambda integrations
+            * API Gateway
+            * Kinesis
+            * DynamoDB
+            * S3
+            * CloudFront
+            * CloudWatch Events/Event Bridge
+        * Lambda Limits (per region)
+            * Execution
+                * Memory: 128 MB - 10 GB (1 MB increment)
+                * max execution time: 900 sec (15 min)
+                * 4 KB env variables
+                * disk copacity in "function container"  10 GB
+                * concurrency executions 1000
+            * Deployment
+                * lambda function size: 50 MB
+                * size of uncrompressed deployment: 250 MB
+                * can use /tmp directory to load other files at start
+                * size of env variable 4 KB
+        * Customization at the edge
+            * Edge function
+                * code that you write and attach to Cloiudfront
+            * Two types
+                * CLoudFront Functions
+                    * written in JavaScript
+                    * used to change viewer requests and responses
+                    * native 
+                * Lambda@Edge
+                    * written in NodeJS or Python
+                    * author your functions in one region, gets replicated
+                * use cases
+                    * website security & privacy
+                    * dynamic web app at Edge
+                    * Search Engine Optimization
+        * Lambda in VPC
+            * lambda function launched outside VPC
+            * can't access resources in your VPC
+            * how to luanch Lambda in VPC
+                * define VPC ID, subnets, and Security Gorups
+                * lambda will create ENI in your subnets
+            * Lambda with RDS Proxy
+                * use proxy so lambda functions do not directly connect to database under high load
+                * pools connections and shares them w/ functions
+                * lambda function must be deployed in your VPC
+    * Amazon DynamoDB
+        * fully managed, replication across multiple AZs
+        * NoSQL DB with tranasaction support
+        * scales to massive workloads
+        * fast and consistent in performance
+        * no maintenance or patching
+        * standard & infrequent access table classes
+        * Dynamo Basics
+            * made of tables
+            * each table with primary key
+            * can add attributes (columns) over time
+        * read/write capacity modes
+            * provisioned mode (default)
+                * specify # of read/writes per second
+                * pay for provisioned Read Capacity Units (RCU)
+                * pay for provisioned Write Capacity Unit (WCU)
+                * possibility to auto scale RCU & WCU
+            * on demand mode
+                * read/writes auto scale up/down with owrkloads
+                * more expensive, pay for what you use 
+                * greate for upredictible work, steep sudden spikes
+        * Advanced Features
+            * DynamoDB Accelerator (DAX)
+                * fully managed memory cache
+                * microseconds latency for cached data
+            * Stream Processing
+                * ordered stream of items in a table
+                * react to changes in real-time (welcome email)
+                * DynamoDB Streams
+                    * 24 hours retention
+                    * limited # of consumers
+            * Global Tables
+                * multi region table with low latency 
+                * apps read write in any region
+                * must have dynamoDB streams enabled
+            * Time To Live
+                * auto delete items after an expiry timestamp
+                * reduce stored data by keeping only current items
+                * web session handling
+            * backups for disaster recover
+                * pont in time recovery (PITR)
+                    * enabled for last 35 days
+                    * recovery process creates new table
+                * on-demand backups
+                    * full backups for long term retention
+                    * can be configured in AWS Backup (cross region)
+            * integration with S3
+                * export to S3 (must enable PITR)
+                    * works for any point of time in last 35 days
+                    * doesn't affect read capicity of table
+                * import to S3
+                    * doesn't consume write capacity
+                    * creates new table
+    * API Gateway
+        * build serverless API
+        * handles security
+        * integrates with
+            * lambda function
+                * espose rest API backed by AWS lambda
+            * HTTP
+        * Endpoint Types
+            * Edge-Optimized (default): for global clients
+                * requests routed through cloudfront edge locations
+                * gateway still lives in only one region
+            * Regional
+                * for clients within the same region
+                * could manually combine with Cloudfront
+            * Private
+                * Can only be accessed from your VPC using VPC endpoint (ENI)
+                * use resoruce policy for access
+        * Security
+            * user auth through
+                * IAM Roles
+                * Cognito (external users)
+                * Custom Authorizer (lambda functions)
+            * Custom domain name HTTPS through AWS Cert Manager (ACM)
+                * edge optimized cert must be in us-east 1
+                * must setup CNAME or A-alias record in route 53
+    * Step Functions
+        * build serverless visual workflow to orchestrate lambda func
+        
+
+            
+
+
+
+                
+            
+
+
+
 
         
 
