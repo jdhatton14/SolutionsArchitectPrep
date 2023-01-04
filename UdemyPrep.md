@@ -1682,7 +1682,79 @@
                 * must setup CNAME or A-alias record in route 53
     * Step Functions
         * build serverless visual workflow to orchestrate lambda func
+# Section 21: Serverless Architecures
+    * scnenario hands on stuff
+# Section 22: Databases
+    * Database Types
+        * RDBMS: RDS, Aurora
+            * great for joins
+        * NoSQL database:  DynamoDB, Elasticache, 
+            * no joins, no SQL
+        * Object store: S3
+        *  Data Warehouse: Redshift, Athena, EMR
+        * Search: OpenSearch
+            * free text, unstructured searches
+        * Graphs: Amazon neptune
+        * ledger: amazon quantum ledger
+    * RDS
+        * managed postgres/ MySQL/ Oracle/ Sql Server
+        * provisioned RDS instance size and EBS volume type
+        * Auto scaling capability for storage
+        * supports read replicas and multi AZ
+        * security thorugh IAM, SG, KMS, SSL in transit
+        * managed and scheduled maintenance
+        * use case - store relational databases
+    * Aurora
+        * compatible for Postgres/MySQL
+        * storage and compute are seperate
+        * self healing, auto scaling 
+        * aurora serverless - unpredictable/intermittent workloads
+        * aurora multi-master - continuous writes failover
+    * Elasticache
+        * managed redis/ memcached cache service
+        * must provision an EC2 instance type
+        * require code changes
+        * use cases
+            * frequent reads, less writes, store session data
+    * DynamoDB
+        * proprietary tech, serverless noSQL database
+        * provisioned capacity with opt auto-scaling or on-demand capacity
+        * can replace elasticache for storing session data
+        * DAX cluster for reach cache
+        * security, atuh done through IAM
+        * use cases
+            *  serverless app development (small docs 100s KB)
+            * distributed serverless cache
+    * S3
+        * key/value store for objects
+        * great for bigger objects
+    * DocumentDB
+        * cloud native version of MongoDB
+        * noSQL database
+        * store, query, index JSON data
+    * Neptune
+        * fully managed graph database
+    * Keyspaces (for Apache Cassandra)
+        * noSQL distributed database
+        * servless
+        * auto scale tables up/down
+        * use cases
+            * IoT devices, time series data
+    * Amazon QLDB
+        * Quantum Ledger Database
+        * ledger - book recording financial transactions
+        * immutable systems
+        * no decentralization, in accordance with regulation rules
+    * Amazon Timestream
+        * time series database
+        * use cases
+            * IOT
+            * operational apps
+            * real time analytics
         
+
+
+
 
             
 
