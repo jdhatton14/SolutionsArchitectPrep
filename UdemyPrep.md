@@ -1751,6 +1751,112 @@
             * IOT
             * operational apps
             * real time analytics
+# Section 23: Data & Analytics
+    * Athena
+        * serverless query service to analyze S3 data
+        * uses SQL 
+        * don't have to move data
+        * commonly used with Quicksight for dashboards
+        * athena performance improvement
+            * use columnar data for cost-savings
+                * Apache Parquet or ORC is recommended
+                * use Glue to convert data
+            * compress data for smaller retrievals
+            * partition data sets in S3 for easy querying
+            * use larger files to minimize overhead
+        * federated query
+            * run sql queries across several diff sources
+            * uses data source connectors (lambda function)
+    * Redshift
+        * based on Postgres
+        * used for OLAP (online analytical processing)
+        * 10x better performance than other data warehouses
+        * columnar storage of data
+        * faster queries than Athena, because of indexes
+        * better for more complicated queries
+        * only available in one AZ, use snapshots to transfer
+        * can auto copy snapshots to another region
+        * Reshift Spectrum
+            * query data that is already in S3
+    * OpenSearch (Amazon ElasticSearch)
+        * dynamoDB queries only  by primary key or indexes
+        * openSearch can search any field, even partial matches
+        * used in conjunction with other databases
+        * does NOT support SQL
+    * Amazon EMR (Elastic MapReduce)
+        * helps create Hadoop clusters (big data)
+        * EMR comes bundled with Apache Spark, HBase, etc
+        * auto scaling and integrated with Spot instances
+        * use cases: data processing, machine learning, big data
+        * Node types & purchasing
+            * master node: manages cluster - long running
+            * core node: run tasks and store data - long running
+            * task node (optional): just run tasks - usually spot
+    * Amazon QuickSight
+        * serverless Business Intelligence service for dashboards
+        * integrates with RDS, Aurora, etc
+        * in-memory computation using SPICE engine if data imported
+        * Dashboard & analysis
+            * define users (standard version) & groups (enterprise)
+            * users & groups only exist within Quicksight
+    * Glue
+        * managed extract, transform, and Load (ETL) service
+        * useful to prepare and transform data for analytics
+        * converting data into Parquet format
+            * on S3 put event notification, use lambda to call glue
+        * Glue Data Catalog
+            * glue data crawlers writes metadata of tables
+        * glue job bookmarks - prevent re-processing old data
+        * glue elastic views
+            * combine and replicate data across mult sources
+            * no custome code, glue monitors changes
+        * glue databrew: clean and normalizes data
+        * glue Studio: new GUI to create jobs in Glue
+        * Glue Streaming ETL (build on Spark)
+    * AWS Lake Formation
+        * data lake - central place to have all your data 
+        * fully managed service to setup data lake
+        * automates many complex manual steps
+        * have blueprints for many different data sources
+        * lake formation centralized permissions example
+            access control w/ column & row level security
+    * Kinesis Data Analytics
+        * Kinesis Data Analytics for SQL applications
+            * can come from Kinesis data streams or firehose
+            * output can be sent to data stream or firehose
+                * firehose can be used to send to S3
+                * streams can be sent to Lambda or other apps
+        * Kinesis Data Analytics for Apache Flink
+            * use Fink (Java, Scala, or sql) to process stream data
+    * Amazon managed streaming for Apapche Kafka (MSK)
+        * alternative to Amazon Kinesis
+        * fully managed Kafka on AWS
+        * Data is stored on EBS volumes for as long as you want
+        * MSK serverless
+            * run kafka on MSK without dealing with capacity
+        * Kinesis vs MSK
+            * kinesis has 1 mb limit, MSK can go higher
+            * MSK can only add partitions not delete
+        * MSK Consumers
+            * Flink , Glue (spark powered)
+            * lambda
+            * custom consumers (write code)
+    * Big Data Ingestion Pipeline
+        * IoT Devices (IoT Core service)
+            * IoT -> kinesis data stream -> S3 bucket
+
+
+    
+        
+    
+
+
+        
+
+
+
+
+
         
 
 
