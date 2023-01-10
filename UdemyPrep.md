@@ -1844,7 +1844,64 @@
     * Big Data Ingestion Pipeline
         * IoT Devices (IoT Core service)
             * IoT -> kinesis data stream -> S3 bucket
+# Section 24: Machine Learning
+    * Rekognition
+        * find objects, people, text, images using ML
+        * facial analysis and facial search
+        * create database of familar faces
+        * content moderation
+            * detect innapropriate content
+            * used in social media, advertising for safe user exp
+            * set minimum confidence threshold for items to flag
+            * flag Amazon Augmented AI (A2I) for manual review
+    * Transcribe
+        * automatically convert speech to text
+        * uses Automatic Speech Recognition (ASR)
+        * auto remove PII (personally identifiable info) using redaction
+        * support auto language identification for multi-language
+    * Polly
+        * turn text into lifelike speech using deep learning
+        * allows you to create applications that talk
+        * customize pronunciation of words with lexicons
+        * Speech ßynthesis markup language (SSML)
+            * used for more customization
+                * phonetic pronunciation, breathing sounds, whisper
+    * Translate
+        * natural and accurate language translation
+        * allows you to localize content for webapps
+    * Lex + Connect
+        * Lex - powers Alexa devices
+            * has ASR
+            * helps build chatbots, call center bots
+        * Amazon Connect
+            * recieve calls, cloud-based virtual contact center
+            * no upfront payments, 80% cheaper
+    * Comprehend
+        * Natural Language Processing (NLP)
+        * fully managed and serverless
+    * Comprehend Medical
+        * detects and returns useful info in unstructured text
+    * SageMaker Overview
+        * fully managed service to build ML models
+        * typically difficult to do all processes in one place
+        * helps with labeling, training, and tuning of ML model
+    * Forecast
+        * fully managed ML service for highly accurate forecasts
+        * reduce forecasting time from months to hours
+    * Kendra
+        * fully managed, document search service using ML
+        * extract answers from within a document
+        * will learn from interactions/feedback
+    * Amazon Personalize
+        * fully managed ML service with real time recommendations
+        * same tech used by Amazon.com
+        * don't need to deploy ML solutions
+    * Amazon Textract
+        * extract text, handwriting, data from scanned docs
 
+
+
+        
 
     
         
