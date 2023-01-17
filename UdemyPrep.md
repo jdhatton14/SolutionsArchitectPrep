@@ -1898,7 +1898,96 @@
         * don't need to deploy ML solutions
     * Amazon Textract
         * extract text, handwriting, data from scanned docs
+# Section 25: AWS Monitoring & Audit (Cloudwatch, Cloudtrail)
+    * CloudWatch Metrics
+        * provides metrics for every service in AWS
+        * metric - variable to monitor (CPU, networking, etc)
+        * Dimension is an atrribute of a metric (< 10 per metric)
+        * metric streams
+            * stream with real-time delivery (Kinesis firehose)
+        * cloudwatch logs
+            * log groups - name, usually represents app
+            * log stream: instance within app
+            * log aggregation - multi account and multi region
+        * cloudwatch agent
+            * need agent to run on EC2 for log files'
+            * Logs Agent (old version)
+            * Unified Agent (new version)
+                * gives metrics and logs
+        * cloudwatch alarms
+            * three states
+                * OK, INSUFFICIENT_DATA, ALARM
+            * alarm targets
+                * stop, terminate, recover EC2 instance
+            * composite alarms - combining other alarms
+            * alarms can be created on logs metrics filters
+            * can tests alarms using CLI
+    * Amazon EventBridge (formerly Cloudwatch Events)
+        * sechdule: cron jobs
+        * Event pattern: event rules react to service doing something
+        * trigger lambda functions
+        * EventBridge Rules
+            * can be used to trigger lambda
+            * can replay archive events sent to event bus
+        * schema registry
+            * eventbridge can analyze events in your bus and infer the schema
+            * schema registry allows you to generate code from app
+        * cloudwatch insights
+            * container insights 
+                * collect aggregate, summarize metrics/logs
+                * available from ECS, EKS, K8s, Fargate
+            * lambda insights
+                * monitor and troubleshoot serverless Lambda
+            * contributor insights
+                * see top contributor(s) data
+                * ex heaviest network users
+            * application insights
+                * show automated dashboards for apps
+                * powered by SageMaker
+    * CloudTrail
+        * provides governance, complicance, and audit AWS account
+        * enabled by default
+        * cloudTrail events
+            * management events
+                * ops that are performed on resources in AWS 
+                * enabled to log by default
+                * can seperate read events from write events
+            * Data events
+                * not logged by default
+                * S# object level activity (GETObj, PUTObj)
+                * Lambda function execution acivity
+            * CloudTrail Insight events
+                * enable insights to detect unusual activity
+                * continuously analyzes write events
+            * EventBridge - intercept API calls
+                * CloudTrail logs API calls
+                * can look for "delete" API to create rule
+    * AWS Config
+        * helps with auditing and record complience of resources
+        * helps record configurations and changes over time
+        * examples
+            * is there unrestricted SSH access to my SG?
+            * do my buckets have any public access?
+        * per-region service
+        * config rules
+            * AWS managed
+            * custom config rules (defined in Lambda)
+            * does not prevent actions from happening
+    * cloudwatch vs cloudtrail vs Config
+        * CloudWatch
+            * performance monitoring
+        *CloudTrail
+            * record API calls within your Account
+        * Config
+            * record configuration changes
+    
 
+            
+
+
+
+
+            
 
 
         
