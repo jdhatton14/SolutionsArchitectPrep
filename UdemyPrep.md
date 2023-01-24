@@ -2069,7 +2069,176 @@
                 * uses Service Control Protocols (SCP) to restrict regions
             * Detective Guardrail - uses AWS config
                 * monitor user actions
+
+# Section 27: AWS Security & Encryption
+    * Encryption
+        * Encryption in flight (SSL) - encryption while transporting data
+            * SSL certificates help with enryption (HTTPS)
+            * encryption in flight ensures no "man in middle" attack
+        * server side encryption at rest
+            * data is encrypted after being recieved by the server
+            * data is decrypted before being sent to user
+            * uses data key stroed in Key Management Service (KMS)
+        * client side encryption
+            * data encrypted by client, server never decrypts data
+            * could leverage envelope encryption
+    * KMS
+        * anytime you hear "encryption" for AWS, most likely KMS
+        * never store secrets in plaintext, especially in your code
+            * call KMS API to get creds files
+        * KMS Key types
+            * Symmetric key
+                * single key to encrypt and decrypt data
+                * AWS services uses symmetric keys
+                * you never get access to KMS Key
+            * Asymmetric key
+                * public (encrypt) and private (decrypt) pair
+                * public key is downloadable
+                * use case encrypt outside of AWS
+        * KMS keys
+            * AWS managed key: free
+            * customer managed key (CMK): $1/month
+            * customer managed keys imported: $1/month
+            * also pay for API call to KMS
+            * Automatic key rotation
+                * AWS managed: every 1 year
+                * customer managed key: 1 year
+        * KMS Key Policies
+            * similar to S3 bucket policies
+            * key policies needed to access KMS keys
+            * default KMS key policy
+                * complete access to key to entire AWS account
+        * KMS Multi-region keys
+            * identical KMS keys in different AWS regions
+            * KMS multi-region is not global
+            * each multi region key is managed independently
+            * can be used for DynamoDB global tables & multi region key client-side encryption
+            * can be used with aurora DB to encrypt a specific column (ex SSN column in financial table)
+        * S3 replication
+            * unencrypted and server side encrypted S3 keys are auto replicated
+            * Client encrypted keys are never replicated
+            * SSE-KMS need to enable option to replicate
+        * AMI Sharing process encrypted via KMS
+            * must modify attribute launch permission which links to AWS account
+            * must share KMS keys through key polict
+            * create IAM role/user to have access to KMS key
+    * SSM Paramter Store
+        * secure storage for config and secrets
+        * seamless encryption using KMS
+        * security through IAM
+        * can have paramater polices
+            * assign TTL to paramater to force updating
+            * can assign multiple policies at a time
+    * AWS Secrets Manager
+        * capabality to force rotation of secrets every X days
+        * auto generation of secrets on rotation (uses Lambda)
+        * Mult-region secrets with replica secrets
+    * AWS Certificate Manager (ACM)
+        * easily manage TLS certificates
+        * provides in-flight encryption for websites
+        * free of charge for public TLS certificates
+        * integrates with ELBs, cloudfront, or API gateway
+        * cannot use ACM with EC2
+        * requesting public certificates
+            * list domain names to be included in the cert
+            * select validation method (DNS or email)
+                * DNS validation is preferred
+            * need to get verified
+            * public cert will be enrolled for auto renewal
+        * importing public certs
+            * no auto renewal, muust import new cert
+            * ACM sends daily expiration events
+        * ACM w/ API Gateway
+            * create custom domain name in API gateway
+            * edge-optimized (default)
+                * request routed through cloudFront
+                * TLC certs must be in same region as cloud-front, us-east-1
+            * regional
+                * TLS cert must be imported to gateway in same region
+    * AWS WAF (Web App Firewall)
+        * protect web apps from Layer 7 common web exploits
+        * deploy on
+            * ALB, API Gateway, CloudFront, AppSync GraphQL API, Cognito USer Pool
+        * DOES NOT SUPPORT network load balancer
+        * Define Web ACL (Access Control List) rules
+        * protects against SQL injection and Cross-site scripting
+        * adds DDoS protection
+        * use case: fixed IP with load balancer using global accelerator 
+    * AWS Shield
+        * protects against DDoS attacks
+        * Shield Standard
+            * free service available to all AWS users
+        * Shield Advanced
+            * pay money
+            * protect against more sophisticated attacks on
+                * EC2, ELB, Cloudfront, AWS Global Accelerator, Route 53
+                * protect against higher fess during spikes
+                * auto deploy WAF rules to mitigate attacks
+    * Firewall Manager
+        * manage rules in all accounts of an AWS org
+        * security policy: common set of security rules
+            * WAF Rules
+            * AWS Shield Advanced
+            * Security Groups
+            * AWS network Firewall
+            * policies are applied at region level
+        * rules applied to new resources when created
+    * AWS best practices for DDoS mitigation
+        * BP1 - cloudfront
+            * webapp delivery at edge
+            * protect from DDoS using Shield
+        * BP1 - global accelerator
+            * integrates with Shield for DDoS protection
+        *BP3 - Route 53
+            * DDoS included
+        * infrastructure layer defense (BP1, BP3, BP6)
+            * Protect EC2 against high traffic
+            * amazon EC2 with ASG (BP7)
+                * helps scale in case of sudden traffic surges
+            * Elastic Load Balancing (BP6)
+                & scales with traffic increase and distributes
+        * app layer defense
+            * detect and filter malicious web requests
+                * use Cloudfront, WAF to filter requests
+                * shield advanced can auto create WAF rules
+        * Attack surface reduction
+            * obfuscating AWS resources (hide backend resources)
+            * use security groups and netowrk access control lists
+            * protect API endpoints
+    * Amazon GuardDuty
+        * inteligent threat discovery to protect your AWA account
+        * uses ML to find anomalies
+        * input includes cloudtrail logs, VPC flow logs, DNS logs
+        * can protect against cryptocurrency attacks
+    * Amazon Inspector
+        * automated vulnerability detection for
+            * EC2 instances
+                * leverage AWS system manager agent
+            * Container Images pushed to Amazon ECR
+            * Lambda Functions
+                * look for dependency problems
+        * only for running EC2s, container images & lambda
+    * Amazon Macie
+        * data security and privacy service
+        * alerts for personally identifiable information (PII)
+
+        
+    
+
+
+
+
+
+
+
+
+
+
+        
+
             
+
+
             
     
 
