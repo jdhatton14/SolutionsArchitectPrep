@@ -1980,6 +1980,103 @@
             * record API calls within your Account
         * Config
             * record configuration changes
+# Section 26: IAM Advanced
+    * Organizations
+        * global service, allows to manage multiple AWS accounts
+        * main account management account, other member accounts
+        * consolidated billing across all accounts
+        * share reserved instances across accounts
+        * organization units (OU)
+            * groupings of accounts
+        * Service Control Policies (SCP)
+            * policies applied to OU or accounts to restrict users
+            * do not apply to management account
+            * must have an explicit allow
+            * any deny will overide explicit allows
+            * SCP examples
+                * blocklist and Allowlist strategies
+    * IAM conditions
+        * aws:SourceIP
+            * retrict the client IP FROM which API calls are made
+        * ec2:ResourceTag
+            * restrict based on tags
+        * S3:ListBucket -> bucket level permission
+        * aws:PrincialOrgID
+            * can be used in resource policies to resstricts access to accounts that are member of an AWS org
+    * IAM Roles vs Resource based policies
+        * cross account
+            * attach a resource-based policy to a resource
+            * OR use a role as a proxy
+        * when you assume a role, you give up your original permissions and take premissions assigned to the role
+        * when using resource -based policy, the principal doesn't have to give up permissions
+        * EventBridge Security
+            * when a rule runs it needs permissions on the target
+            * resource based policy: Lambda, SNS, SQS, Cloudwatch
+            * IAM role: kinesis stream, systems manaager, ECS task
+    * IAM Permission boundaries
+        * supported for users and roles (BUT not groups)
+        * set the maximum permissions an IAM entity can get
+        * useful to restrict one specific user
+    * Amazon Cognito
+        * gives users identity for outside AWS
+        * Cognito User Pools
+            * sign in functionality
+            * creates serverless db for users
+            * simple login (basic auth)
+            * integrates with API gateway and ALB
+        * Cognito Identiy Pools (Federated Identity)
+            * provide AWS credentials to users 
+            * integrate with Cognito User Pools as identity provider
+            * users get temporary AWS credentials
+        * Cognito vs IAM
+            * use cognito for multiple users mobile users, SAML
+    * IAM Identity Center
+        * successor to AWS SSO (Single sign on)
+        * can sign into 
+            * AWS accounts in AWS org
+            * business cloud apps
+            * SAML2.0 enabled apps
+            * EC2 Windows Instances 
+        * identity providers
+            * Built in identity store in IAM Identity Center
+            * 3rd party Active Directory, Okta, etc
+        * permissions set in Identity Center
+    * AWS Directory Services
+        * Microsoft Active Directory
+            * centralized security management
+            * database of objects, user accounts etc
+            * objects are organized in trees
+        * AWS Directory services types
+            * AWS Managed Microsoft AD
+                * create your own AD in AWS, manage users locally
+                * establish trust connections with on prem AD
+            * AD Connector
+                * Redirects to on-prem AD
+                * users are managed on prem
+            * Simple AD
+                * AD compatible managed directory on AWS
+                * cannot be joined with on-prem AD
+        * AD setup
+            * connect to AWS Managed Microsoft AD
+            * Connect to a self-managed Directory
+                * create two way trust relaitonship using AWS AD
+    * AWS Control Tower
+        * easy way to set up secure and compliant multi-account AWS environment
+        * control tower uses AWS Orgs to create accounts
+        * Control Tower Guardrails
+            * preventive guardrails
+                * prevents users from doing something
+                * uses Service Control Protocols (SCP) to restrict regions
+            * Detective Guardrail - uses AWS config
+                * monitor user actions
+            
+            
+    
+
+
+
+
+
     
 
             
