@@ -2221,6 +2221,225 @@
     * Amazon Macie
         * data security and privacy service
         * alerts for personally identifiable information (PII)
+# Section 28: VPC
+    * CIDR - classless inter-domain routing
+        * method for allocating IP addresses
+        * consists of two components
+            * Base IP (XX.XX.XX.XX)
+            * Subnet Mask
+                * defines how many bits can change in the IP
+                * /0, /24, /32 OR 255.0.0.0 format
+                * the less the "/" number the more IPS allowed
+                    * ex 192.168.0.0/32 allows one IP (192.168.0.0)
+                    * 192.168.0.0/31 allows 2 IP (powers of 2 2^1)
+        * public vs private IP
+            * private IP can only allow certain values
+                * 10.0.0.0 - 10.255.255.255 (10.0.0.0/8) big networks
+                * 172.16.0.0-172.31.255.255 (172.16.0.0/12) AWS default VPC range
+                * 192.168.0.0/16 (home network)
+            * all the rest of the IP addresses are public
+    * Default VPC overview
+        * all new accounts have a default VPC
+        * default VPC has internet connectivity and public IP addr
+    * Custom VPC Overview (Virtual Private cloud)
+        * can have multiple VPCs in an AWS region (soft max of 5)
+        * max CIDR per VPC is 5, for each CIDR
+            * min size /28 (16 IP addresses)
+            * max size is /16 (65,536 addresses)
+            * only private IPv4 ranges are allowed
+        * make sure VPC CIDR should NOT overlap with your other networks
+    * Subnets
+        * both public or private
+        * subrange of IPv4 addresses
+        * AWS reserves 5 IP addresses (first 4 & last 1)
+        * 10.0.0.0/24 CIDR example reserved addresses
+            * 10.0.0.0 - Network address
+            * 10.0.0.1 - reserved by VPC router
+            * 10.0.0.2 - reserved for mmapping to AWS DNS
+            * 10.0.0.3 - reserved for future use
+            * 10.0.0.255 - network broadcast address
+        * exam tip, if you need 29 IP addresses don't use /27
+    * Internet Gateway (IGW)
+        * allows resources in a VPC to connect to public internet
+        * must be created seperately from a VPC
+        * one to one VPC <-> IGW connection
+        * route tables need editing to enable internet connectivity
+    * Bastion Hosts
+        * users want to access instance in private subnet
+        * host in public subnet can ssh to private instance
+        * laison between user and private instances
+        * bastion host security group must allow inbound from internet on port 22 from restricted CIDR (public CIDR)
+        * security group of private EC2 must allow private IP of Bastion host
+    * NAT Instances (outdated but still on exam)
+        * Network Address Translation
+        * allows EC2s in private subnets to connect to internet
+        * must be launched in a public subnet
+        * must disable EC2 setting: Source/Destination check
+        * must have elastic IP attached to it
+        * route tables must b configured to route traffic from private subnets to NAT instance
+    * NAT Gateways
+        * AWS managed NAT instances
+        * pay per hour of usage and banwidth
+        * created in specific AZ, uses an Elastic IP
+        * Cant be nused by EC2 in the same subnet
+        * requires an IGW
+        * gateway is resilient within a single AZ
+        * need multiple NAT gateways in multiple AZs for fault tolerance
+    * NACL & Security Groups
+        * Network Access Control List
+            * stateless (all traffic evaluated)
+            * rules that are processed at subnet level
+            * controls traffic to/from subnets
+            * NACL Rules
+                * rules have number, higher precedence with lower num
+                * first rule match will drive the decision
+                * last rule is an asterisk to deny request w/ no match
+            * gets processed before security groups
+            * Default NACL
+                * accepts everything indbound/outbound with the subnet it's associated with
+        * Security Group
+            * stateful (once allowed in, auto allowed out)
+            * operates at instance level
+            * supports allow rules only
+        * Ephemeral Ports
+            * clients connect to defined port, expect response from ephemeral port
+            * the port that opens so server can send resposne to client
+            * only lives for life of connection
+        * Ephemeral Ports with NACL
+            * must set up ephemeral port range to allow connections
+    * VPC Peering
+        * privately connect two VPCs using AWS network
+        * make them behave as one connected network
+        * VPC Peering connection is NOT transitive
+        * must route tables in each VPC subnet to allow peering
+    * VPC endpoints
+        * use to connect instances to AWS services privately
+        * less cost than going through NAT Gateway to public service
+        * redundant and scale horizontally
+        * remove need of IGW, NATGW,... to access AWS services
+        * two types
+            * Interface Endpoints (powered by PrivateLink)
+                * Provisions an ENI as an entry point (use SG)
+                * supports most AWS services
+                * cost per hour and per GB of data used
+            * Gateway Endpoint (preferred for S3/DynamoDB)
+                * provisions gateway and use as a target in route table (no security groups)
+                * supports both S3 and DynamoDB
+                * Free
+    * VPC Flow Logs
+        * capture info about IP traffic going into interfaces
+            * VPC flow logs
+            * subnet Flow Logs
+            * Elastic Network Interface (ENI) flow logs
+        * helps moitor & troubleshoot connectivity logs
+        * how to troubleshoot - look at action field
+    * Site to Site VPN
+        * encrypted public connection to on prem data centers
+        * virtual private gateway (VGW)
+            * VPN concentrator on the AWS side of connection
+        * Customer Gateway (CGW)
+            * software app to connect to VPC
+            * what IP to use?
+                * public address for CGW device
+                * use public IP address of NAT device if private
+        * must enable Route Propagation for VGW
+        * enable ICMP protocol on inbound rules for SG to ping EC2s
+        * AWS VPN CloudHub
+            * provide secure comms between multiple sites/VPN connection
+    * Direct Connect (DX) & Direct Connect Gateway
+        * provices dedicated private connection to VPC
+        * needs Virtual Private Gateway to VPC
+        * access public and private resources on same connection
+        * use cases
+            * increased badnwith throughput
+            * more consistent network experience
+            * supports hybrid environments
+        * connection types
+            * dedicated connections (1, 10, or 100 Gbps)
+                & physical ethernet prot dedicated to customer
+            * Hosted Connection (50Mbps, 500Mbps, 10Gbps)
+                * capacity can be added or removed on demand
+            * lead times are often longer than 1 month to establish connection
+        * Encryption
+            * data in transit is not encrypted, but not private
+            * Direct Connect + VPN provides encryption
+        * Resiliency
+            * for critical workloads
+                * mult direct connects w/ multi DX locations
+            * max resiliency for critical workloads
+                * mult locations with multiple connections 
+    * Site-to-Site VPN connection as backup
+        * if DX fails, set up site-to-site VPN connection
+    * Transit Gateway
+        * transitie peering between thousands of VPC, on prem, hub and spoke connection
+        * regional resource, can work cross region
+        * create route tables for transit gateway connections
+        * works with DX gateway, VPN connections
+        * supports IP Multicast
+        * Site-to-Site VPN ECMP (Equal-cost multi path) routing
+            * forward a packet over multiple best path
+        * can share DX connection with multiple AWS accounts via transit gateway
+    * VPC Traffic Mirroring
+        * allows capture and inspect network traffic on VPC
+        * route traffic to security services
+        * capture traffic from (source) or to (target)
+    * IPv6
+        * designed to succeed IPv4
+        * format is X.X.X.X.X.X.X.X where X is hex range 
+            ( 0000 -> ffff)
+        * can use IPv6 in VPCs for public addresses
+    * Egress Only Internet Gateway
+        * NAT Gateway for IPv6 traffic only
+        * must update route tables
+    * Networking Costs in AWS
+        * same AZ
+            * any incoming traffic to EC2 is free
+            * private IP comm between EC2s is free
+        * diff AZ
+            * EC2 -> EC2 not free
+            * private IP communication is cheaper
+        * use PRIVATE IP when possible
+        * minimizing egress traffic network cost
+            * egress - outbound traffic
+            * ingress traffic - inbound traffic (typically free)
+        * S3 data transfer pricing
+            * S3 ingress - free
+            * S3 to Internet: 9 cents/ GB
+            * S3 Transfer Acceleration costs extra money
+            * S3 to CloudFront: free
+            * Cloudfront to Internet: 8.5 cents / GB
+    * AWS Netowrk Firewall
+        * protects entire VPC
+        * uses AWS Gateway Load Balancer
+        * supports 1000s of rules
+        * traffic filtering
+
+        
+
+
+
+        
+
+    
+        
+        
+        
+
+
+    
+
+    
+    
+
+
+
+
+
+
+
+
+        
+
 
         
     
