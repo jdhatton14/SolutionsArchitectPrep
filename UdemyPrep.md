@@ -2553,7 +2553,53 @@
             * on EC2 termination, use lifecycle hook to create snapshot
             * create launch lifecycle hook to attach EBS volume
             * use User Data script to attach elastic IP
+# Section 30: Other Services
+    * CloudFormation
+        * use templates to spin up infrastructure
+        * infrastructure as code - good for control
+        * each resource in stack has a tag
+        * can estimate costs of using the CF template
+    * SES (Simple Email Service)
+        * send emails securely, globally, and at scale
+        * supports DomainKeys Identified Mail (DKIM) and Sender Policy Framework (SPF)
+    * Amazon Pinpoint
+        * 2-way (inbound/outbound) marketing comms service
+        * supports email, SMS, etc
+        * able to recieve replies
+    * Systems Manager - SSM Session Manager
+        * start secure shell on EC2 without ssh access, hosts, or SSH keys needed
+    * Systems Manager Other Services
+        * Run Command
+            * execute script or a command
+            * run command across multiple instances
+        * Patch Manager
+            * automate process of patching managed instances
+            * supports EC2 and on-prem
+            * patch on-demand or on schedule using maintenance window
+        * Automation
+            * simplify common maintenance and deployment tasks
+            * automation runbook - define actions performed on EC2
+    * AWS Cost Explorer
+        * visualize AWS costs over time
+        * create custom reports of cost data
+        * choose optimal savings plan
+        * forecast up to 12 months in the future
+    * Amazon Elastic Transcoder
+        * convert media files in S3 into formats needed by consumer playback
+    * AWS Batch
+        * fully managed batch processing at any scale
+        * batched jobs defined as docker images, run on ECS
+    * Amazon AppFlow
+        * transfer data between SaaS apps and AWS
+        * sources - Salesforce, SAP, Slack, ServiceNow
+        * Destinations - AWS services, snowflake, SalesForce
+
+
     
+
+
+
+
         
 
         
