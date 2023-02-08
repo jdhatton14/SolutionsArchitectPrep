@@ -2482,7 +2482,68 @@
     * VMware Cloud on AWS
         * VMware used for managing on-prm data center
         * use AWS while also using VMware cloud
-        
+# Section 29: More Solution Architectures
+    * Event Processing in AWS
+        * SQS + Lambda
+            * Lambda will do try,try poll
+            * dead letter queue (DLQ) to stop infinite loop
+        * SQS FIFO + Lambda
+            * try, retry and blocking
+            * use dead letter queue to stop infinite loop
+        * SNS + Lambda
+            * asyncronous, lambda retries internally
+            * send lambda retries to SQS DLQ
+        * Fan Out Pattern: deliver to multiple SQS queues
+            * SQS queues subscribe to central SNS subscriber
+        * S3 Event notifications
+            * object create, remove, restore, etc
+            * use case - generate thumbails uploaded to S3
+            * can send to SNS, SQS, Lambda
+            * can also send to Amazon Event Bridge
+        * EventBridge - intercept API calls (ex dydamoDB delete)
+        * API Gateway -> kinesis data streams -> firehose -> S3
+    * Caching Strategies in AWS
+        * caching through cloudfront edge
+            * run risk of outdated content, use TTL to force refresh
+        * API Gateway caching
+            * regional caching
+        * Redis, Memcached, Dax
+    * Blocking an IP address
+        * NACL deny rules
+        * SG whitelist
+        * ALB connection termination w/ Security group
+        * Network Load Balancer does not have security (passthrough)
+        * WAF IP address filtering on ALB
+        * WAF on Cloudfront, CloudFront geo restriction
+    * High Performance Computing (HPC) on AWS
+        * Data management & transfer
+            * Direct Connect, good for moving data over private net
+            * Snowball & Snowmobile
+                * move PB of data at once
+            * AWS DataSync
+                * move large amount of data between on prem & S3, EFS, FSx
+        * EC2 Enhanced Networking (SR-IOV)
+            * higher bandwitdth, packets per second, lower latency
+            * Option 1: Elastic Network Adapter (ENA) up to 100 Gbps
+            * Option 2: Intel 82599 VF up to 10 Gbs - LEGACY
+        * Elastic Fabric Adapter (EFA)
+            * Improved ENA for HPC, only for LINUX
+            * great for inter-node communication
+        * Storage
+            * instance attached storage
+                * EBS: 256,000 IOPS 
+                * Instance Store: scale to millions IOPS
+            * Network Storage: 
+                * S3 - large blob
+                * EFS - cale IOPS based on total size
+                * Amazon FSx for Lustre
+        * Automation and Orchestration
+            * AWS Batch
+                * supports multi-node parallel jobs
+            * AWS ParallelCluster
+                * open-source cluster management
+                * ability to enable EFA on the cluster
+
         
 
 
