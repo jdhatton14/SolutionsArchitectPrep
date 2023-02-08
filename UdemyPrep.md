@@ -2413,6 +2413,84 @@
         * uses AWS Gateway Load Balancer
         * supports 1000s of rules
         * traffic filtering
+# Section 29: Disaster Recovery & Mitigations
+    * Disaster Recovery Overview
+        * types of disaster recovery
+            * On prem -> On Prem, traditional & very expensive
+            * on prem -> AWS cloud, hybrid recovery
+            * AWS region A -> Region B
+        * RPO (Recovery Point Objective)
+            * how often do you run backups
+            * time between RPO and disaster is data loss
+        * RTO (Recovery Time Objective)
+            * time between disaster and recovery
+    * Disaster recovery strategies
+        * Backup & restore
+            * high RPO
+            * full backups at certain interval
+        * Pilot light
+            * small version with critical systems is always running in the cloud
+            * lower RPO and RTO than backup & restore
+        * Warm standby
+            * full backup system is up and running, but at min size
+            * upon disaster, scale up to production load
+        * hot site/ multi-site approach
+            * very low RTO  but very expensive
+            * full production scale on prem and AWS
+    * DMS (Database Migration Service)
+        * quickly migrate databases to AWS, self healing
+        * source DB remains available during migration
+        * must create EC2 instance to perform the replication
+        * Schema Conversion Tool (SCT)
+            * convert schema from one engine to another
+    * RDS & Aurora MySQL Migrations
+        * RDS MySQL to Aurora
+            * Option 1: DB snapshots from RDS mySQL restored as Aurora
+            * Option 2: Aurora Read replica from RDS MySQL
+        * External MySQL to Aurora MySQL
+            * Opt 1: Use Percona XtraBackup to create file backup in S3
+                * create Aurora DB from S3
+            * Opt 2: Use mysqldump utility into Aurora (slower than S3)
+        * Use DMS if both databases are up and running
+    * On-Prem strategy with AWS
+        * ability to download Amazon Linux 2 AMI as a VM
+        * VM Import/Export
+        * AWS app Discovery Service
+        * AWS Databse Migration Service (DMS)
+        * AWS Server Migration Service
+    * AWS Backup
+        * fully manged service to manage and automate backups
+        * no need to create custom scripts
+        * EC2, S3, RDS, EFS, Storage Gateway supported
+        * supports Point in Time Recovery
+        * crearte backup policies known as Backup Plans
+        * Vault Lock
+            * write once Read Many policy
+            * backups can't be deleted
+    * AWS App Discorvery Service
+        * plan migration projects by scanning servers
+        * Agentless Discovery (AWA Agentless Discovery Connector)
+            * VM inventory, config, and performance
+        * Agent-based Discovery 
+            * system config & performance, running processes, and deatails of network connections between systems
+        * data can be viewed in AWS Migration Hub
+    * AWS Application Migration Service (MGN)
+        * lift and shift solution which simplifiy migrating to AWS
+        * converts physical, virtual, and cloud-based server to run natively on AWS
+    * Transferring large amount of data into AWS
+        * ex transfer 200 TB of data, 100 Mbps internet
+    * VMware Cloud on AWS
+        * VMware used for managing on-prm data center
+        * use AWS while also using VMware cloud
+        
+        
+
+
+        
+
+        
+    
+
 
         
 
