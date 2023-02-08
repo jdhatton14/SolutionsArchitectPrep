@@ -2543,6 +2543,18 @@
             * AWS ParallelCluster
                 * open-source cluster management
                 * ability to enable EFA on the cluster
+    * Creating highly available EC2 instance
+        * use elastic IP
+        * have standby EC2 instance, failover elastic IP
+            * use Cloudwatch event to trigger lambda function
+        * have ASG of 1 min, 1 max, 1 desired, 2 AZs
+            * use EC2 user data script to attach elastic IP
+        * ASG + EBS volumne
+            * on EC2 termination, use lifecycle hook to create snapshot
+            * create launch lifecycle hook to attach EBS volume
+            * use User Data script to attach elastic IP
+    
+        
 
         
 
